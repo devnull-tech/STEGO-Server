@@ -7,6 +7,8 @@ from .serializers import RegisterSerializer, UserSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.decorators import api_view, permission_classes
 
+# TODO: Photo login
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def register(request):

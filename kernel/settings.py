@@ -33,10 +33,10 @@ AUTH_USER_MODEL = 'user.CustomUser'
 LOGIN_URL = '/user/unauthorized/'
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-    ),
+    ]
 }
 
 MIDDLEWARE = [
@@ -47,7 +47,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'user.middleware.APIKeyMiddleware'
+    'user.middleware.APIKeyMiddleware',
+    'user.middleware.DisableCSRFMiddleware'
 ]
 
 ROOT_URLCONF = 'kernel.urls'

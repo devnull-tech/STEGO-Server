@@ -6,11 +6,15 @@ from io import BytesIO
 from django.db import models
 from user.models import CustomUser as User
 
+class Photo(models.Model):
+    b64_photo = models.TextField()
+
 class Container(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     b64_photo = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    # TODO: Add symmetric encryption
     def input(self, text: str) -> None:
         image_data = base64.b64decode(self.b64_photo)
         image = Image.open(BytesIO(image_data))
@@ -45,6 +49,13 @@ class Container(models.Model):
         if response.status_code == requests.codes.ok:
             image_data = response.content
             encoded_image = base64.b64encode(image_data).decode('utf-8')
+            new_photo = Photo(
+                b64_photo = encoded_image
+            )
+            new_photo.save()
             return encoded_image
         else:
-            raise Exception(str(response.status_code) + response.text)
+            random_photo = Photo.objects.order_by('?').first()
+            if not random_photo:
+                raise Exception("There are no photos available.")
+            return random_photo
