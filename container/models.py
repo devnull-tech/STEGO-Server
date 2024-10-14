@@ -14,7 +14,6 @@ class Container(models.Model):
     b64_photo = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    # TODO: Add symmetric encryption
     def input(self, text: str) -> None:
         image_data = base64.b64decode(self.b64_photo)
         image = Image.open(BytesIO(image_data))
